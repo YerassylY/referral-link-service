@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@SpringBootApplication(scanBasePackages = {"kz.jysan.business"})
+@SpringBootApplication
 public class ReferralLinkApplication {
     public static void main(String[] args) {
         SpringApplication.run(ReferralLinkApplication.class, args);

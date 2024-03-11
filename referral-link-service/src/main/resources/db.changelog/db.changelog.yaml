@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: referral_link.sql
+      relativeToChangelogFile: true

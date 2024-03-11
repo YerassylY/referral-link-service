@@ -17,12 +17,8 @@ public class ReferralLinkController implements ReferralLinkApi {
     @Override
     public ResponseEntity<Object> formReferralLink(CreateReferralLinkRequest referralLinkRequest) {
         CreateReferralLinkResponse response;
-        try {
-            response = service.formReferralLink(referralLinkRequest);
-            ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        response = service.formReferralLink(referralLinkRequest);
+        ResponseEntity.status(HttpStatus.OK).body(response);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
