@@ -51,6 +51,10 @@ public class ReferralLinkService {
                 ));
     }
 
+    public String getSomeKey(String key){
+        return environment.getProperty(key);
+    }
+
     private String formLink(String requestType, String trackCode) {
         // TODO: write logic to form link
         return requestType + trackCode;
@@ -87,10 +91,9 @@ public class ReferralLinkService {
         }
     }
 
-    public String getSomeKey(String key){
-        return environment.getProperty(key);
+    public ReferralLinkType changeReferralLinkTypeState(String code, Boolean actual) {
+        repository.changeReferralLinkTypeState(code, actual);
+        return getReferralLinkType(code);
     }
-
-
 
 }

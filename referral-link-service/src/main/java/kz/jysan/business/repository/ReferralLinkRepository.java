@@ -45,4 +45,9 @@ public interface ReferralLinkRepository extends CrudRepository<ReferralLink, UUI
                              @Param("name") String name,
                              @Param("urlBase") String urlBase,
                              @Param("actual") Boolean actual);
+
+    @Modifying
+    @Query("update referral_link_type set actual = :value where code = :code")
+    void changeReferralLinkTypeState(@Param("code") String code,
+                                    @Param("value") Boolean actual);
 }

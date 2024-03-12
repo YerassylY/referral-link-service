@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
@@ -26,5 +27,13 @@ public interface ReferralLinkApi {
 
     @GetMapping("/referral-link/type/{code}")
     ResponseEntity<Object> getReferralLinkType(@PathVariable("code") String code);
+
+    @PutMapping("/referral-link/type/{code}")
+    ResponseEntity<Object> changeReferralLinkTypeState(@PathVariable("code") String code,
+                                                       @RequestParam("actual") Boolean actual);
+
+    @PutMapping("/referral-link/type/deactivate/{code}")
+    ResponseEntity<Object> deactivateLinkType(@PathVariable("code") String code);
+
 
 }
