@@ -30,8 +30,8 @@ public class ReferralLinkService {
 
     public ReferralLinkResponse formReferralLink(CreateReferralLinkRequest referralLinkRequest) {
         ReferralLink referralLink = ReferralLinkMapper.map(referralLinkRequest);
-        referralLink.setLink(formLink(referralLink.getType(), referralLink.getTrackCode()));
-        referralLink.setExpiredAt(LocalDateTime.now()); // TODO: write proper logic here
+        setLink(referralLink);
+        setExpireDate(referralLink);
         saveReferralLinkEntity(referralLink);
         return ReferralLinkResponse.builder()
                 .id(referralLink.getId())
@@ -58,9 +58,15 @@ public class ReferralLinkService {
         return environment.getProperty(key);
     }
 
-    private String formLink(String requestType, String trackCode) {
-        // TODO: write logic to form link
-        return requestType + trackCode;
+    private void setLink(ReferralLink referralLink) {
+         referralLink.setLink("https://ib.jusan.kz/dl/" + referralLink.getType() + "?refCode=" + referralLink.getId());
+    }
+
+    private void setExpireDate(ReferralLink link) {
+        if (link.getTtl() == null)
+            return;
+        int days = Integer.parseInt(link.getTtl().substring(0, link.getTtl().length() - 1));
+        link.setExpiredAt(LocalDateTime.now().plusDays(days));
     }
 
     public ReferralLinkResponse getReferralLink(UUID refId) {
