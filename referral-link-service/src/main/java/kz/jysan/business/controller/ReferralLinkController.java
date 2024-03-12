@@ -40,8 +40,7 @@ public class ReferralLinkController implements ReferralLinkApi {
 
     @Override
     public ResponseEntity<Object> getReferralLinkType(String code) {
-        ReferralLinkType referralLinkType = service.getReferralLinkType(code);
-        return ResponseEntity.status(HttpStatus.OK).body(referralLinkType);
+        return service.getReferralLinkType(code);
     }
 
     @Override
@@ -52,20 +51,7 @@ public class ReferralLinkController implements ReferralLinkApi {
 
     @Override
     public ResponseEntity<Object> changeReferralLinkTypeState(String code, Boolean actual) {
-        ReferralLinkType referralLinkType = service.changeReferralLinkTypeState(code, actual);
-        return ResponseEntity.status(HttpStatus.OK).body(referralLinkType);
-    }
-
-    /*@Override
-    public ResponseEntity<Object> activateLinkType(String code) {
-        ReferralLinkType referralLinkType = service.changeRefLinkTypeState(code, Boolean.TRUE);
-        return ResponseEntity.status(HttpStatus.OK).body(referralLinkType);
-    }*/
-
-    @Override
-    public ResponseEntity<Object> deactivateLinkType(String code) {
-        ReferralLinkType referralLinkType = service.changeReferralLinkTypeState(code, Boolean.FALSE);
-        return ResponseEntity.status(HttpStatus.OK).body(referralLinkType);
+        return service.changeReferralLinkTypeState(code, actual);
     }
 
 }

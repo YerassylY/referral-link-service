@@ -10,4 +10,5 @@ spring:
   liquibase:
     change-log: db.changelog/db.changelog.yaml
 
+NOT_FOUND: Записи с переданным идентификатором не существует
 CODE_ALREADY_EXISTS: Запись с переданным кодом уже существует

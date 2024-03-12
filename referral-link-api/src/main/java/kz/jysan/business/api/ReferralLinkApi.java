@@ -31,9 +31,4 @@ public interface ReferralLinkApi {
     @PutMapping("/referral-link/type/{code}")
     ResponseEntity<Object> changeReferralLinkTypeState(@PathVariable("code") String code,
                                                        @RequestParam("actual") Boolean actual);
-
-    @PutMapping("/referral-link/type/deactivate/{code}")
-    ResponseEntity<Object> deactivateLinkType(@PathVariable("code") String code);
-
-
 }

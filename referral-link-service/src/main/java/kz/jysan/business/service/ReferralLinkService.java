@@ -11,10 +11,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,15 +64,25 @@ public class ReferralLinkService {
     }
 
     public ReferralLinkResponse getReferralLink(UUID refId) {
-        return ReferralLinkMapper.map(repository.getReferralLink(refId).get());
+        try {
+            return ReferralLinkMapper.map(repository.getReferralLink(refId).get());
+        } catch (NoSuchElementException ex) {
+            throw new NoSuchElementException(getSomeKey("NOT_FOUND"));
+        } catch (Exception ex) {
+            throw new RuntimeException("Unexpected error occurred while adding referral link type: " + ex.getMessage(), ex);
+        }
     }
 
     public List<ReferralLinkType> getReferralLinkTypeList() {
         return repository.getReferralLinkTypes();
     }
 
-    public ReferralLinkType getReferralLinkType(String code) {
-        return repository.getReferralLinkType(code);
+    public ResponseEntity<Object> getReferralLinkType(String code) {
+        ReferralLinkType referralLinkType = repository.getReferralLinkType(code);
+        if (referralLinkType == null) {
+            throw new NoSuchElementException(getSomeKey("NOT_FOUND"));
+        } else
+            return ResponseEntity.status(HttpStatus.OK).body(referralLinkType);
     }
 
     public ReferralLinkType addReferralLinkType(CreateLinkTypeRequest request) {
@@ -91,7 +104,7 @@ public class ReferralLinkService {
         }
     }
 
-    public ReferralLinkType changeReferralLinkTypeState(String code, Boolean actual) {
+    public ResponseEntity<Object> changeReferralLinkTypeState(String code, Boolean actual) {
         repository.changeReferralLinkTypeState(code, actual);
         return getReferralLinkType(code);
     }

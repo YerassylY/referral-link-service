@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -75,6 +78,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleDuplicateFound(
             DuplicateKeyException ex) {
         ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        apiError.setDebugMessage(service.getSomeKey(ex.getMessage()));
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(
+            EntityNotFoundException ex) {
+        ApiError apiError = new ApiError(NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    protected ResponseEntity<Object> handleNoSuchElement(
+            NoSuchElementException ex) {
+        ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         apiError.setDebugMessage(service.getSomeKey(ex.getMessage()));
         return buildResponseEntity(apiError);
