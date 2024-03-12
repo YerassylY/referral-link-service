@@ -1,6 +1,7 @@
 package kz.jysan.business.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError {
 
     private HttpStatus status;

@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateReferralLinkResponse {
-    private UUID id;
-    private String link;
-    private LocalDateTime expiredAt;
+public class CreateLinkTypeRequest {
+    private String code;
+    private String name;
+    private String urlBase;
+    private Boolean actual;
 }
+

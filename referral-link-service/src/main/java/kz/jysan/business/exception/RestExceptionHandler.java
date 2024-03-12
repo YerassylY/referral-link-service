@@ -1,8 +1,11 @@
 package kz.jysan.business.exception;
 
 import kz.jysan.business.api.ApiError;
+import kz.jysan.business.service.ReferralLinkService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -12,15 +15,19 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
+@RequiredArgsConstructor
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    private final ReferralLinkService service;
 
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
@@ -62,6 +69,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   WebRequest request) {
         String error = "Malformed JSON request";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    protected ResponseEntity<Object> handleDuplicateFound(
+            DuplicateKeyException ex) {
+        ApiError apiError = new ApiError(INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
+        apiError.setDebugMessage(service.getSomeKey(ex.getMessage()));
+        return buildResponseEntity(apiError);
     }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
