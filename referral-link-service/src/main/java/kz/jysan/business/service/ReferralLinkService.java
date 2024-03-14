@@ -1,6 +1,7 @@
 package kz.jysan.business.service;
 
 import kz.jysan.business.entity.ReferralLink;
+import kz.jysan.business.entity.ReferralLinkEvent;
 import kz.jysan.business.entity.ReferralLinkType;
 import kz.jysan.business.mapper.ReferralLinkMapper;
 import kz.jysan.business.model.CreateLinkTypeRequest;
@@ -113,6 +114,17 @@ public class ReferralLinkService {
     public ResponseEntity<Object> changeReferralLinkTypeState(String code, Boolean actual) {
         repository.changeReferralLinkTypeState(code, actual);
         return getReferralLinkType(code);
+    }
+
+    public void saveReferralLinkEvent(ReferralLinkEvent event) {
+        repository.insertReferralLinkEvent(event.getId(),
+                event.getEvent(),
+                event.getRefCode(),
+                event.getClient(),
+                event.getSibUserId(),
+                event.getActionType(),
+                event.getActionId(),
+                event.getResult());
     }
 
 }

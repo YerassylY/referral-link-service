@@ -10,5 +10,12 @@ spring:
   liquibase:
     change-log: db.changelog/db.changelog.yaml
 
+  rabbitmq:
+    host: ${RABBIT_URL:localhost}
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:guest}
+    password: ${RABBIT_PASSWORD:guest}
+    #virtual-host: ${RABBIT_VIRTUAL_HOST:}
+
 NOT_FOUND: Записи с переданным идентификатором не существует
 CODE_ALREADY_EXISTS: Запись с переданным кодом уже существует

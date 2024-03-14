@@ -1,7 +1,7 @@
 package kz.jysan.business.api;
 
-import kz.jysan.business.model.CreateReferralLinkRequest;
 import kz.jysan.business.model.CreateLinkTypeRequest;
+import kz.jysan.business.model.CreateReferralLinkRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

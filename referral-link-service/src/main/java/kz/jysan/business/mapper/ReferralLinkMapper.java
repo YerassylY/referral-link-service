@@ -1,7 +1,9 @@
 package kz.jysan.business.mapper;
 
 import kz.jysan.business.entity.ReferralLink;
+import kz.jysan.business.entity.ReferralLinkEvent;
 import kz.jysan.business.model.CreateReferralLinkRequest;
+import kz.jysan.business.model.ReferralLinkEventRequest;
 import kz.jysan.business.model.ReferralLinkResponse;
 
 import java.util.Optional;
@@ -37,4 +39,20 @@ public class ReferralLinkMapper {
                         .build())
                 .orElse(null);
     }
+
+    public static ReferralLinkEvent map(ReferralLinkEventRequest request) {
+        return Optional.ofNullable(request)
+                .map(req -> ReferralLinkEvent.builder()
+                        .id(UUID.randomUUID())
+                        .event(req.getEvent())
+                        .refCode(req.getRefCode())
+                        .client(req.getClient())
+                        .sibUserId(req.getSibUserId())
+                        .actionType(req.getActionType())
+                        .actionId(req.getActionId())
+                        .result(req.getResult())
+                        .build())
+                .orElse(null);
+    }
+
 }

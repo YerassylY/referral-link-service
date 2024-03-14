@@ -50,4 +50,18 @@ public interface ReferralLinkRepository extends CrudRepository<ReferralLink, UUI
     @Query("update referral_link_type set actual = :value where code = :code")
     void changeReferralLinkTypeState(@Param("code") String code,
                                     @Param("value") Boolean actual);
+
+    @Modifying
+    @Query("insert into referral_link_event (id, event, ref_code, client, sib_user_id, action, action_id, result) " +
+            "values (:id, :event, :refCode, :client, :sibUserId, :action, :actionId, :result) " +
+            "on conflict do nothing")
+    void insertReferralLinkEvent(@Param("id") UUID id,
+                @Param("event") String event,
+                @Param("refCode") UUID refCode,
+                @Param("client") String client,
+                @Param("sibUserId") UUID sibUserId,
+                @Param("action") String action,
+                @Param("actionId") UUID actionId,
+                @Param("result") String result);
+
 }
