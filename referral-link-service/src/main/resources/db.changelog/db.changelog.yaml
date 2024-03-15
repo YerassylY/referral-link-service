@@ -2,3 +2,9 @@ databaseChangeLog:
   - include:
       file: referral_link.sql
       relativeToChangelogFile: true
+  - include:
+      file: referral_link_type.sql
+      relativeToChangelogFile: true
+  - include:
+      file: referral_link_event.sql
+      relativeToChangelogFile: true
